@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:annotation-config/>
+	<bean name="userServiceImpl"
+		class="mappingrpc.test.centerserver.service.mock.UserServiceImpl"/>
+
+	<bean name="rpcServer1" class="github.mappingrpc.api.MappingRpcServer"
+		init-method="start">
+		<property name="listenPort" value="6200"/>
+
+		<property name="providerList">
+			<list>
+				<ref bean="userServiceImpl"/>
+			</list>
+		</property>
+
+		<property name="tlsConfig">
+			<bean class="github.mappingrpc.api.domain.TlsConfig">
+				<property name="tlsKeyStoreFilePath"
+					value="/home/lokki/workspace/javaKeyStore/mappingRpcServerTest.jks"/>
+				<property name="tlsKeyStorePassword" value="testserverpsw"/>
+				<property name="tlsKeyPassword" value="testserverpsw"/>
+
+				<property name="tlsCertStorePath"
+					value="/home/lokki/workspace/javaKeyStore/mappingRpcServerTest.jks"/>
+				<property name="tlsCertStorePassword" value="testserverpsw"/>
+			</bean>
+		</property>
+	</bean>
+</beans>
